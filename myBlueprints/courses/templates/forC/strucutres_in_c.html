@@ -1,0 +1,49 @@
+<section id="structures-in-c">
+    <h2>Structures in C</h2>
+    <p>
+        Structures in C are a user-defined data type that allow you to group different data types together under a single name. They are particularly useful for organizing complex data and creating custom data types that reflect real-world entities.
+    </p>
+
+    <h3>Defining a Structure</h3>
+    <p>
+        You can define a structure using the <code>struct</code> keyword followed by the structure name and its members enclosed in braces.
+    </p>
+    <pre><code>struct Person {
+    char name[50];
+    int age;
+    float height;
+};</code></pre>
+
+    <h3>Declaring Structure Variables</h3>
+    <p>
+        After defining a structure, you can declare variables of that structure type.
+    </p>
+    <pre><code>struct Person person1, person2;</code></pre>
+
+    <h3>Accessing Structure Members</h3>
+    <p>
+        You can access members of a structure using the dot operator (<code>.</code>).
+    </p>
+    <pre><code>person1.age = 30;
+strcpy(person1.name, "Alice");
+person1.height = 5.6;</code></pre>
+
+    <h3>Initializing Structures</h3>
+    <p>
+        Structures can be initialized at the time of declaration.
+    </p>
+    <pre><code>struct Person person3 = {"Bob", 25, 5.9};</code></pre>
+
+    <h3>Structures and Functions</h3>
+    <p>
+        You can pass structures to functions either by value or by reference (using pointers). Passing by reference is more efficient for large structures.
+    </p>
+    <pre><code>void printPerson(struct Person p) {
+    printf("Name: %s, Age: %d, Height: %.2f\n", p.name, p.age, p.height);
+}</code></pre>
+
+    <h3>Conclusion</h3>
+    <p>
+        Understanding structures is essential for organizing data in C programming. This section will provide practical examples and exercises to help you effectively use structures in your coding projects.
+    </p>
+</section>

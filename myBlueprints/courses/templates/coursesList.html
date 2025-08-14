@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Footer</title>
+    <link rel="stylesheet" href="{{ url_for('beforeLoginHome_pg.static',filename='css/courses.css') }}">
+</head>
+<body>
+    <!--header start-->
+    {% include "afterLoginHeader.html" %}
+    <!--header end-->
+
+    <!--courses Headding start-->
+    <div class="coursesHeadding">
+        <h1>Courses</h1>
+    </div>
+    <!--courses Headding end-->
+
+    <!--Courses start-->
+    <div class="courses">
+        <div>
+            <img src="{{ url_for('courses_pg.static',filename='imgs/python.jpg') }}" alt="image">
+            <div>
+                <h3>Basics in python programing</h3>
+                <p>This free Python course is designed to help you build a solid foundation in Python programming. I it helps you to create simple scripts in python.</p>
+                <p class="type"><li>Beginner to Advanced</li></p>
+                <a href="{{ url_for('courses_pg.course_python') }}" class="enroll-button">Learn Now</a>
+            </div>
+        </div>
+
+        <div>
+            <img src="{{ url_for('courses_pg.static',filename='imgs/java.jpg') }}" alt="imgae">
+            <div>
+                <h3>Basics in java programing</h3>
+                <p>This free Java course gives students an introduction to Java SE by learning simple programes on the Java programming language.</p>
+                <p class="type"><li>Beginner to Advanced</li></p>
+                <a href="{{ url_for('courses_pg.course_java') }}" class="enroll-button">Learn Now</a>
+            </div>
+        </div>
+    
+        <div>
+            <img src="{{ url_for('courses_pg.static',filename='imgs/c.jpg') }}" alt="image">
+            <div>
+                <h3>Basics in c programing</h3>
+                <p>If you want to learn C for free with a well-organized, step-by-step tutorial, you can use our free C programing Course.</p>
+                <p class="type"><li>Beginner to Advanced</li></p>
+                <a href="{{ url_for('courses_pg.course_c') }}" class="enroll-button">Learn Now</a>
+            </div>
+        </div>
+    </div>
+    <!--Courses end-->
+
+    <!--footer start-->
+    {% include "afterLoginFooter.html" %}
+    <!--footer end-->
+</body>
+</html>

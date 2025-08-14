@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <link rel="stylesheet" href="{{ url_for('chatWithFriends_pg.static',filename='css/chatApp.css') }}">
+    <script src="{{ url_for('chatWithFriends_pg.static',filename='js/socket.io.min.js') }}"></script>
+</head>
+<body>
+
+    <!--header start-->
+    {% include "afterLoginHeader.html" %}
+    <!--header end-->
+
+    <!--ChatApp start-->
+    <div class="chat-container">
+        <div class="chat-contact">
+            <div class="searchBar">
+                <div id="searchBlock">
+                    <input type="text" id="searchFriend" placeholder="&#128269; Search...">
+                    <button id="searchButton" onclick='findFriend()'>Search</button>
+                </div>
+            
+                <div id="addFriendBlock">
+                    <div id="searchedFriend">
+                        <div class="searchedFicon">
+                            <img src="{{ url_for('beforeLoginHome_pg.static',filename='imgs/profileIcon.jpg') }}" alt="icon">
+                        </div>
+                        <h2>Mani</h2>
+                        <button id="addFriend">Add</button>
+                    </div>
+                </div>
+            </div>
+            <div class="friendsList">
+                {% for friend in friends %}
+                    <div class="friend" onclick="loadChats('{{ friend.friend_username }}')">
+                        <div class="ficon"><img src="{{ url_for('beforeLoginHome_pg.static',filename='imgs/profileIcon.jpg') }}" alt="icon"></div>
+                        <h2>{{ friend.friend_username }}</h2>
+                        <!--{% if friend.notifications > 0 %}
+                            <span class="{{ friend.friend_username }}"><p>{{ friend.notifications }}</p></span>
+                        {% endif %}-->
+                    </div>
+                {% endfor %}
+                    
+            </div>
+        </div>
+        <div class="chat-body">
+            <div class="chat-header">
+                <h2 id="headerTitle">Chat App</h2>
+                <div class="chatHeaderOptions">
+                    <div class="optionsIcon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="optionsList">
+                        <button onclick="clearChat()" class="option option1">Clear chat</button>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-messages">
+                <div id="defaultChatMessages">
+                    <h2>Chat With Friends</h2>
+                    <p>Hello {{ session.get('username') }}! Welcome to my Chat App.</p>
+                    <p>You can communicate with your Friends by sending and receiving messages.</p>
+                </div>
+            </div>
+            <div class="chat-input" style="display:none;">
+                <input type="text" id="messageInput" placeholder="Type a message..." />
+                <button id="sendButton" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+    <!--ChatApp end-->
+
+    <!--footer start-->
+    {% include "afterLoginFooter.html" %}
+    <!--footer end-->
+
+    <!--<script src="{{ url_for('chatWithFriends_pg.static',filename='js/chatApp.js') }}"></script>-->
+
+    <script>
+        let optionsIcon = document.getElementsByClassName("optionsIcon")[0]
+        let optionsList = document.getElementsByClassName("optionsList")[0]
+        optionsIcon.addEventListener("click",()=>{
+            if(optionsList.classList.contains('active')){
+                optionsList.classList.remove('active')
+                optionsList.style.display = 'none';
+            }
+            else if(!optionsList.classList.contains('active') && currentFriendId!=null){
+                optionsList.classList.add('active')
+                optionsList.style.display = 'flex';
+            }
+        })
+        window.addEventListener("click",(event)=>{
+            if(optionsList.classList.contains('active') && event.target !== optionsList && !optionsIcon.contains(event.target)){
+                optionsList.classList.remove('active')
+                optionsList.style.display = 'none';
+            }
+        })
+        function clearChat(){
+            //console.log(currentFriendId)
+            let ajax = new XMLHttpRequest();
+            ajax.open('GET', '/clearChatMessages/' + currentFriendId ,true);
+            
+            ajax.onreadystatechange = ()=>{
+                if(ajax.readyState === 4 && ajax.status === 200){
+                    response = ajax.responseText
+                    if(response == "Cleared"){
+                        loadChats(currentFriendId)
+                    }
+                }
+            };
+
+            ajax.send();
+        }
+        messageInputBlock = document.getElementById("messageInput")
+        messageInputBlock.addEventListener('keypress',function(event){
+            if(event.key === 'Enter'){
+                sendMessage();
+            }
+        })
+    </script>
+
+    <script>
+        let searchFriend = document.getElementById('searchFriend')
+        let searchButton = document.getElementById("searchButton")
+        let searchedFriend = document.getElementById("addFriendBlock")
+
+        searchFriend.addEventListener('input',()=>{
+            if(searchFriend.value == ""){
+                searchButton.style.display = 'none'
+            }
+            else{
+                searchButton.style.display = 'block'
+            }
+            searchedFriend.style.display = 'none'
+            let parent = document.getElementById('searchedFriend')
+            parent.innerHTML = " ";
+        })
+
+        searchFriend.addEventListener('keypress',function(event){
+                    if(event.key === 'Enter'){
+                        findFriend();
+                    }
+        })
+
+        function findFriend(){
+            searchedFriend.style.display = 'flex'
+            let req = new XMLHttpRequest()
+            req.open('GET','/searchFriend/'+searchFriend.value,true);
+            req.onreadystatechange = ()=>{
+                if(req.status == 200 && req.readyState == 4){
+                    let parent = document.getElementById('searchedFriend')
+                    parent.innerHTML = " ";
+
+                    let res = JSON.parse(req.responseText)
+
+                    if(res.data == 'notFound'){
+                        let h3 = document.createElement("div");
+                        h3.innerText = "Not Found"
+                        parent.appendChild(h3)
+                    }
+                    else{
+                        let user = searchFriend.value;
+                        let div = document.createElement("div");
+                        div.classList.add('searchedFicon');
+
+                        let img = document.createElement('img');
+                        img.src = "{{ url_for('beforeLoginHome_pg.static',filename='imgs/profileIcon.jpg') }}"
+
+                        let h2 = document.createElement('h2');
+                        h2.innerText = user;
+
+                        div.appendChild(img)
+                        parent.appendChild(div)
+                        parent.appendChild(h2)
+                        if(res.check == 'notAdded'){
+                            let button = document.createElement('button');
+                            button.innerText = 'Add'
+                            button.setAttribute('id','addFriend');
+                            parent.appendChild(button)
+                            button.addEventListener('click',function(){
+                                let ajax = new XMLHttpRequest();
+                                ajax.open('GET','/addFriend/'+searchFriend.value,true);
+                                
+                                ajax.onreadystatechange = ()=>{
+                                    if(ajax.readyState==4 && ajax.status==200){
+                                        answer = ajax.responseText
+                                        if(answer == 'true'){
+                                            parent.removeChild(button);
+                                            parent.setAttribute('onClick',"loadChats('"+user+"')");
+                                        
+                                        
+                                            let friendList = document.getElementsByClassName('friendsList')[0];
+
+                                            let newDiv = document.createElement('div');
+                                            newDiv.classList.add("friend");
+                                            newDiv.setAttribute('onClick',"loadChats('"+user+"')");
+                                            let newDivDiv = document.createElement('div');
+                                            newDivDiv.classList.add('ficon');
+                                            let newImg = document.createElement('img');
+                                            newImg.src = "{{ url_for('beforeLoginHome_pg.static',filename='imgs/profileIcon.jpg') }}"
+                                            newImg.alt = "icon";
+                                            newDivDiv.appendChild(newImg);
+                                            let newH2 = document.createElement('h2');
+                                            newH2.innerText = user;
+                                            newDiv.appendChild(newDivDiv);
+                                            newDiv.appendChild(newH2);
+
+                                            friendList.appendChild(newDiv);
+                                        }
+                                    }
+                                }
+
+                                ajax.send()
+                            })
+                        }
+                        else{
+                            parent.setAttribute('onclick',"loadChats('"+user+"')")
+                        }
+                    }
+
+                }
+            }
+            req.send()
+            searchedFriend.style.display = 'flex'
+        }
+    </script>
+    
+    <script>
+        const userId = "{{ session['username'] }}";
+        let socket;
+        let currentFriendId = null;
+
+        function loadChats(friendId) {
+            currentFriendId = friendId;
+            document.getElementById('headerTitle').innerText = "Chat with "+currentFriendId;
+            document.getElementsByClassName("chat-input")[0].style.display = 'flex';
+            // Load chat history using AJAX without jQuery
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/load_messages/' + friendId, true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    let data = JSON.parse(xhr.responseText);
+                    let chatHistory = document.getElementsByClassName('chat-messages')[0];
+                    chatHistory.innerHTML = ''; // Clear previous messages
+                    data.messages.forEach(function(msg) {
+                        const messageDiv = document.createElement('div');
+                        messageDiv.classList.add('message')
+                        if(friendId == userId){
+                            messageDiv.classList.add('sent')
+                            let img = document.createElement('img');
+                            img.src = "{{ url_for('beforeLoginHome_pg.static',filename='imgs/profileIcon.jpg') }}"
+                            let p = document.createElement('p');
+                            p.innerText = msg.message
+                            messageDiv.appendChild(p)
+                            messageDiv.appendChild(img)
+                        }
+                        else if(msg.sender == friendId){
+                            messageDiv.classList.add('received')
+                            let img = document.createElement('img');
+                            img.src = "{{ url_for('beforeLoginHome_pg.static',filename='imgs/profileIcon.jpg') }}"
+                            let p = document.createElement('p');
+                            p.innerText = msg.message
+                            messageDiv.appendChild(img)
+                            messageDiv.appendChild(p)
+                        }
+                        else if(msg.sender == userId){
+                            messageDiv.classList.add('sent')
+                            let img = document.createElement('img');
+                            img.src = "{{ url_for('beforeLoginHome_pg.static',filename='imgs/profileIcon.jpg') }}"
+                            let p = document.createElement('p');
+                            p.innerText = msg.message
+                            messageDiv.appendChild(p)
+                            messageDiv.appendChild(img)
+
+                        }
+                        // console.log(messageDiv)
+                        // console.log(msg.sender)
+                        // console.log(userId)
+                        chatHistory.appendChild(messageDiv);
+                        chatHistory.scrollTop = chatHistory.scrollHeight;
+                    });
+
+                    // Establish socket connection when a friend is clicked
+                    if (!socket) {
+                        socket = io.connect();
+
+                        socket.on('connect', function() {
+                            // After connecting, join the user's own room
+                            socket.emit('join',userId);
+                        });
+
+                        // Listen for real-time messages
+                        socket.on('receive_message', function(data) {
+                            // Append message if it's from or to the current friend
+                            let messageDiv = document.createElement('div');
+                            messageDiv.classList.add('message')
+                            if (data.sender == currentFriendId) {
+                                messageDiv.classList.add('received')
+                                let img = document.createElement('img');
+                                img.src = "{{ url_for('beforeLoginHome_pg.static',filename='imgs/profileIcon.jpg') }}"
+                                let p = document.createElement('p');
+                                p.innerText = data.message
+                                messageDiv.appendChild(img)
+                                messageDiv.appendChild(p)
+                            }
+                            else if(data.sender == userId){
+                                messageDiv.classList.add('sent')
+                                let img = document.createElement('img');
+                                img.src = "{{ url_for('beforeLoginHome_pg.static',filename='imgs/profileIcon.jpg') }}"
+                                let p = document.createElement('p');
+                                p.innerText = data.message
+                                messageDiv.appendChild(p)
+                                messageDiv.appendChild(img)
+                            }
+                            chatHistory.appendChild(messageDiv);
+                            chatHistory.scrollTop = chatHistory.scrollHeight;
+                        });
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+
+            if (currentFriendId && message) {
+                socket.emit('send_message', {
+                    friend_id: currentFriendId,
+                    message: message
+                });
+                messageInput.value = ''; // Clear the input box
+
+                // Append your own message to the chat history
+                let chatHistory = document.getElementsByClassName('chat-messages')[0];
+                let messageDiv = document.createElement('div');
+                messageDiv.classList.add('sent');
+                messageDiv.classList.add('message');
+                let img = document.createElement('img');
+                img.src = "{{ url_for('beforeLoginHome_pg.static',filename='imgs/profileIcon.jpg') }}";
+                let p = document.createElement('p');
+                p.innerText = message;
+                messageDiv.appendChild(p)
+                messageDiv.appendChild(img)
+                chatHistory.appendChild(messageDiv);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>

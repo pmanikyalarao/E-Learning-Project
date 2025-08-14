@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methods in Java</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        h2 {
+            color: #2980b9;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Understanding Methods in Java</h1>
+    
+    <p>In Java, a <strong>method</strong> is a block of code that performs a specific task. It is a way to encapsulate functionality and promotes code reusability.</p>
+
+    <h2>Defining a Method</h2>
+    <p>A method is defined using the following syntax:</p>
+    <pre><code>returnType methodName(parameters) {
+        // method body
+    }</code></pre>
+    <p>Here, <code>returnType</code> specifies the type of value the method returns, <code>methodName</code> is the name of the method, and <code>parameters</code> are the inputs to the method.</p>
+
+    <h2>Example of a Method</h2>
+    <p>Here is a simple example of a method in Java:</p>
+    <pre><code>public int add(int a, int b) {
+        return a + b;
+    }</code></pre>
+    <p>This method, <code>add</code>, takes two integers as parameters and returns their sum.</p>
+
+    <h2>Calling a Method</h2>
+    <p>To use a method, you need to call it from another method or the main program:</p>
+    <pre><code>public class Main {
+        public static void main(String[] args) {
+            Main obj = new Main();
+            int sum = obj.add(5, 10);
+            System.out.println("The sum is: " + sum);
+        }
+        
+        public int add(int a, int b) {
+            return a + b;
+        }
+    }</code></pre>
+
+    <h2>Types of Methods</h2>
+    <ul>
+        <li><strong>Static Methods:</strong> Can be called without creating an instance of the class.</li>
+        <li><strong>Instance Methods:</strong> Require an instance of the class to be called.</li>
+        <li><strong>Abstract Methods:</strong> Declared without an implementation, must be implemented in a subclass.</li>
+    </ul>
+
+    <h2>Method Overloading</h2>
+    <p>Java allows multiple methods with the same name but different parameters. This is known as <strong>method overloading</strong>.</p>
+    <pre><code>public int add(int a, int b) {
+        return a + b;
+    }
+    
+    public double add(double a, double b) {
+        return a + b;
+    }</code></pre>
+
+    <h2>Conclusion</h2>
+    <p>Methods are essential for structuring Java programs. They enhance code readability and maintainability, making it easier to manage complex applications.</p>
+
+</body>
+</html>

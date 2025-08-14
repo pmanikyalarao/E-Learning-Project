@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input and Output in Java</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Input and Output in Java</h1>
+    <p>Input and output (I/O) operations are crucial in Java programming, enabling interaction with users, reading from files, and displaying data. Java provides various classes and methods for handling I/O operations efficiently.</p>
+
+    <h2>1. Input in Java</h2>
+    <p>Java provides several ways to accept user input, with the most common method being through the <code>Scanner</code> class. This class is part of the <code>java.util</code> package and allows easy reading of different data types.</p>
+    
+    <h3>Using the Scanner Class</h3>
+    <pre><code>import java.util.Scanner;
+
+public class InputExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your name: ");
+        String name = scanner.nextLine();
+        System.out.println("Hello, " + name + "!");
+        scanner.close();
+    }
+}</code></pre>
+
+    <h2>2. Output in Java</h2>
+    <p>For displaying output, Java provides several options. The most commonly used methods are through the <code>System.out</code> class, which allows you to print data to the console.</p>
+
+    <h3>Using System.out</h3>
+    <pre><code>System.out.println("Hello, World!"); // Prints a line with a newline
+System.out.print("Hello, World!"); // Prints without a newline</code></pre>
+
+    <h3>Formatted Output</h3>
+    <p>Java also allows formatted output using the <code>printf</code> method:</p>
+    <pre><code>System.out.printf("Name: %s, Age: %d%n", name, age);</code></pre>
+
+    <h2>3. File Input and Output</h2>
+    <p>In addition to console I/O, Java provides classes for reading from and writing to files. The <code>FileReader</code> and <code>FileWriter</code> classes are commonly used for text file operations.</p>
+
+    <h3>Reading from a File</h3>
+    <pre><code>import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class FileReadExample {
+    public static void main(String[] args) {
+        try (BufferedReader br = new BufferedReader(new FileReader("input.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+
+    <h3>Writing to a File</h3>
+    <pre><code>import java.io.FileWriter;
+import java.io.IOException;
+
+public class FileWriteExample {
+    public static void main(String[] args) {
+        try (FileWriter writer = new FileWriter("output.txt")) {
+            writer.write("Hello, World!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+
+    <h2>Get Started!</h2>
+    <p>Join us in our course to explore input and output in Java, and learn how to handle user interaction and file operations effectively in your programming projects!</p>
+</body>
+</html>

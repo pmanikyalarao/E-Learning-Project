@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictionary in Python</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #4CAF50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Dictionaries in Python</h1>
+
+    <p>
+        A <strong>dictionary</strong> in Python is a built-in data type that allows you to store a collection of key-value pairs. Dictionaries are unordered, mutable, and indexed, making them ideal for storing data that is related in a way that can be quickly accessed via unique keys.
+    </p>
+
+    <h2>Creating a Dictionary</h2>
+    <p>Dictionaries can be created using curly braces or the <code>dict()</code> constructor:</p>
+    <pre><code>my_dict = {'name': 'Alice', 'age': 25, 'city': 'New York'}</code></pre>
+    <pre><code>my_dict = dict(name='Alice', age=25, city='New York')</code></pre>
+
+    <h2>Accessing Dictionary Values</h2>
+    <p>You can access values in a dictionary using their corresponding keys:</p>
+    <pre><code>name = my_dict['name']  # Accesses the value 'Alice'</code></pre>
+
+    <h2>Adding and Modifying Items</h2>
+    <p>You can add new key-value pairs or modify existing ones:</p>
+    <pre><code>my_dict['age'] = 26  # Updates age</code></pre>
+    <pre><code>my_dict['country'] = 'USA'  # Adds a new key-value pair</code></pre>
+
+    <h2>Removing Items</h2>
+    <p>You can remove items using the <code>del</code> statement or the <code>pop()</code> method:</p>
+    <pre><code>del my_dict['city']  # Removes the key 'city'</code></pre>
+    <pre><code>age = my_dict.pop('age')  # Removes 'age' and returns its value</code></pre>
+
+    <h2>Benefits of Dictionaries</h2>
+    <ul>
+        <li>Fast access to data: O(1) average time complexity for lookups.</li>
+        <li>Flexible data structure: Can hold mixed data types.</li>
+        <li>Clear associations: Each value is tied to a unique key, improving readability.</li>
+    </ul>
+
+</body>
+</html>

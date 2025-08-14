@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swapping Variables in Python</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #4CAF50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Swapping Variables in Python</h1>
+
+    <p>
+        Swapping variables is a common task in programming where the values of two variables are exchanged. In Python, this can be done easily and efficiently using tuple unpacking.
+    </p>
+
+    <h2>Swapping Variables Using Tuple Unpacking</h2>
+    <p>
+        Python allows you to swap variables in a single line using tuple unpacking. The syntax is as follows:
+    </p>
+    <pre><code>a, b = b, a</code></pre>
+
+    <h3>Example</h3>
+    <p>
+        Here’s a simple example demonstrating how to swap two variables:
+    </p>
+    <pre><code>a = 5
+b = 10
+print("Before swap: a =", a, ", b =", b)
+
+# Swapping
+a, b = b, a
+
+print("After swap: a =", a, ", b =", b)</code></pre>
+
+    <h2>Swapping Without a Temporary Variable</h2>
+    <p>
+        Unlike many other programming languages, Python does not require a temporary variable to swap values, making the process straightforward.
+    </p>
+
+    <h3>Example Without a Temporary Variable</h3>
+    <p>
+        Here’s another method using arithmetic operations (note that this approach can lead to overflow with large numbers):
+    </p>
+    <pre><code>a = 5
+b = 10
+
+# Swapping using arithmetic operations
+a = a + b
+b = a - b
+a = a - b
+
+print("After swap: a =", a, ", b =", b)</code></pre>
+
+    <h2>Conclusion</h2>
+    <p>
+        Swapping variables in Python is simple and can be achieved in a clean and efficient way using tuple unpacking. This feature highlights Python's flexibility and readability, making code easier to write and understand.
+    </p>
+
+</body>
+</html>

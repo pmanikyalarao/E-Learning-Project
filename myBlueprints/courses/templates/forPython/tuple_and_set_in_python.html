@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuples and Sets in Python</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #4CAF50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Tuples and Sets in Python</h1>
+
+    <h2>Tuples</h2>
+    <p>
+        A <strong>tuple</strong> is an immutable sequence type in Python. Tuples are used to store multiple items in a single variable. They can hold a collection of different data types, and their elements cannot be changed after creation.
+    </p>
+    <h3>Creating a Tuple</h3>
+    <p>Tuples are created by placing a comma-separated sequence of items inside parentheses:</p>
+    <pre><code>my_tuple = (1, 2, 3)</code></pre>
+    
+    <h3>Accessing Tuple Elements</h3>
+    <p>You can access elements in a tuple using indexing:</p>
+    <pre><code>first_item = my_tuple[0]  # Accesses the first item (1)</code></pre>
+
+    <h3>Benefits of Tuples</h3>
+    <ul>
+        <li>Immutable: Ensures data integrity.</li>
+        <li>Faster than lists: Less memory overhead.</li>
+        <li>Can be used as dictionary keys.</li>
+    </ul>
+
+    <h2>Sets</h2>
+    <p>
+        A <strong>set</strong> is an unordered collection of unique items. Sets are mutable, meaning you can add or remove items after creation, but they do not allow duplicate elements.
+    </p>
+    <h3>Creating a Set</h3>
+    <p>Sets are created by placing a comma-separated sequence of items inside curly braces or by using the <code>set()</code> constructor:</p>
+    <pre><code>my_set = {1, 2, 3}</code></pre>
+    <pre><code>my_set = set([1, 2, 3])</code></pre>
+
+    <h3>Adding and Removing Elements</h3>
+    <p>You can add elements using the <code>add()</code> method and remove them with the <code>remove()</code> method:</p>
+    <pre><code>my_set.add(4)  # Adds 4 to the set</code></pre>
+    <pre><code>my_set.remove(2)  # Removes 2 from the set</code></pre>
+
+    <h3>Benefits of Sets</h3>
+    <ul>
+        <li>Unordered: Ideal for membership testing.</li>
+        <li>Unique elements: Automatically removes duplicates.</li>
+        <li>Supports set operations: Union, intersection, and difference.</li>
+    </ul>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Input in Python</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #4CAF50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>User Input in Python</h1>
+
+    <p>
+        In Python, user input can be easily captured using the built-in <code>input()</code> function. This allows programs to interact with users by accepting data from the keyboard.
+    </p>
+
+    <h2>Using the input() Function</h2>
+    <p>
+        The <code>input()</code> function reads a line from the user input and returns it as a string. The basic syntax is:
+    </p>
+    <pre><code>user_input = input("Enter your input: ")</code></pre>
+
+    <h3>Example</h3>
+    <p>
+        Here’s a simple example that asks the user for their name and prints a greeting:
+    </p>
+    <pre><code>name = input("What is your name? ")
+print("Hello, " + name + "!")</code></pre>
+
+    <h2>Type Conversion</h2>
+    <p>
+        Since <code>input()</code> returns a string, you may need to convert the input to other data types. For example, to get an integer:
+    </p>
+    <pre><code>age = int(input("Enter your age: "))</code></pre>
+
+    <h3>Example with Type Conversion</h3>
+    <p>
+        Here’s how to ask for a number and perform calculations:
+    </p>
+    <pre><code>num1 = int(input("Enter first number: "))
+num2 = int(input("Enter second number: "))
+sum = num1 + num2
+print("The sum is:", sum)</code></pre>
+
+    <h2>Handling Invalid Input</h2>
+    <p>
+        It’s important to handle potential errors when converting input. You can use <code>try...except</code> blocks to catch exceptions:
+    </p>
+    <pre><code>try:
+    number = int(input("Enter a number: "))
+except ValueError:
+    print("That's not a valid number!")</code></pre>
+
+    <h2>Conclusion</h2>
+    <p>
+        User input is a fundamental part of interactive Python programs. By utilizing the <code>input()</code> function along with type conversion and error handling, you can create responsive applications that engage users effectively.
+    </p>
+
+</body>
+</html>

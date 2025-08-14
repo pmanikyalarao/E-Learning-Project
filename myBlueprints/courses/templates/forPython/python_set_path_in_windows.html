@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting Python Path in Windows</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #4CAF50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Setting Python Path in Windows</h1>
+
+    <p>
+        Setting the Python path in Windows is essential for running Python scripts and using Python packages from any command prompt. This guide will walk you through the steps to add Python to your system's PATH variable.
+    </p>
+
+    <h2>Steps to Set Python Path</h2>
+    
+    <h3>1. Find Your Python Installation Path</h3>
+    <p>
+        First, locate where Python is installed on your system. The default path is usually:
+        <code>C:\Python39</code> or <code>C:\Users\<YourUsername>\AppData\Local\Programs\Python\Python39</code> (replace <code>Python39</code> with your version).
+    </p>
+
+    <h3>2. Open System Properties</h3>
+    <p>
+        Right-click on the <strong>This PC</strong> or <strong>Computer</strong> icon on your desktop or in File Explorer, and select <strong>Properties</strong>.
+    </p>
+
+    <h3>3. Access Environment Variables</h3>
+    <p>
+        Click on <strong>Advanced system settings</strong> on the left sidebar, then click the <strong>Environment Variables</strong> button.
+    </p>
+
+    <h3>4. Edit the PATH Variable</h3>
+    <p>
+        In the <strong>System variables</strong> section, scroll down and find the <code>Path</code> variable. Select it and click <strong>Edit</strong>.
+    </p>
+
+    <h3>5. Add Python to PATH</h3>
+    <p>
+        In the Edit Environment Variable window, click <strong>New</strong> and add the path to your Python installation (e.g., <code>C:\Python39</code>). Also, add the path to the <code>Scripts</code> directory, which is typically <code>C:\Python39\Scripts</code>.
+    </p>
+
+    <h3>6. Confirm Changes</h3>
+    <p>
+        Click <strong>OK</strong> to close all dialog boxes. You may need to restart your command prompt for the changes to take effect.
+    </p>
+
+    <h2>Verifying the Installation</h2>
+    <p>
+        To verify that Python has been added to your PATH, open a new command prompt and type:
+    </p>
+    <pre><code>python --version</code></pre>
+    <p>
+        If Python is correctly set in your PATH, you should see the version number displayed.
+    </p>
+
+    <h2>Troubleshooting</h2>
+    <p>
+        If you encounter issues, double-check the paths you entered, ensuring there are no typos or unnecessary spaces. Also, make sure you are using the correct command prompt (e.g., Command Prompt or PowerShell).
+    </p>
+
+</body>
+</html>

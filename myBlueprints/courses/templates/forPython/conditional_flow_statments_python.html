@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditional Statements in Python</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #4CAF50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Conditional Statements in Python</h1>
+
+    <p>
+        Conditional statements allow you to execute certain pieces of code based on specific conditions. In Python, the primary conditional statements are <code>if</code>, <code>elif</code>, and <code>else</code>.
+    </p>
+
+    <h2>Basic Syntax</h2>
+    <p>The basic syntax for using these statements is as follows:</p>
+    <pre><code>if condition:
+    # code to execute if condition is True
+elif another_condition:
+    # code to execute if another_condition is True
+else:
+    # code to execute if none of the conditions are True</code></pre>
+
+    <h2>Using if, elif, and else</h2>
+    <p>
+        Here’s an example that demonstrates how to use <code>if</code>, <code>elif</code>, and <code>else</code>:
+    </p>
+    <pre><code>age = 18
+
+if age < 18:
+    print("You are a minor.")
+elif age == 18:
+    print("You just became an adult!")
+else:
+    print("You are an adult.")</code></pre>
+
+    <h2>Nested if Statements</h2>
+    <p>
+        You can also nest <code>if</code> statements within each other. This allows for more complex conditions to be evaluated:
+    </p>
+    <pre><code>number = 10
+
+if number > 0:
+    print("The number is positive.")
+    if number % 2 == 0:
+        print("The number is even.")
+    else:
+        print("The number is odd.")
+else:
+    print("The number is negative.")</code></pre>
+
+    <h3>Example of Nested if</h3>
+    <p>
+        In this example, the program checks if a number is positive, and then checks if it is even or odd:
+    </p>
+    <pre><code>num = 15
+
+if num >= 0:
+    print("The number is non-negative.")
+    if num == 0:
+        print("The number is zero.")
+    else:
+        print("The number is positive.")
+else:
+    print("The number is negative.")</code></pre>
+
+    <h2>Conclusion</h2>
+    <p>
+        Conditional statements are a powerful feature in Python that allow for decision-making in your programs. By using <code>if</code>, <code>elif</code>, <code>else</code>, and nested <code>if</code> statements, you can create complex logic and control the flow of your code effectively.
+    </p>
+
+</body>
+</html>

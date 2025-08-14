@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <!--<link rel="stylesheet" href="{{ url_for('beforeLoginHome_pg.static',filename='css/courses.css') }}">-->
+    <link rel="stylesheet" href="{{ url_for('courses_pg.static',filename='css/courses.css') }}">
+</head>
+<body>
+    <!--header start-->
+    {% include "afterLoginHeader.html" %}
+    <!--header end-->
+
+    <!--courses Headding start-->
+    <div class="coursesHeadding">
+        <h1>Basics in {{course}} course</h1>
+    </div>
+    <!--courses Headding end-->
+
+    <!--Python Courses start-->
+    <div class="container">
+        <!-- Left: List of chapters -->
+        <div class="left-side">
+            <h3>Chapters</h3>
+            <ul>
+                {% for chapter in chapters %}
+                    <li>
+                        <a href="#" class="chapter-link" data-id="{{ chapter.id }}" data-course="{{ course }}">
+                            {{ chapter.title }}
+                        </a>
+                </li>
+                {% endfor %}
+                <!--<li>
+                    <a href="#" class="chapter-link" data-id="1" data-course="python">
+                        Introduction to python
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="chapter-link" data-id="1" data-course="python">
+                        Variables in python
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="chapter-link" data-id="1" data-course="python">
+                        Data types in python
+                    </a>
+                </li>-->
+            </ul>
+        </div>
+
+        <!-- Right: Chapter content and YouTube video -->
+        <div class="right-side">
+            <div id="video-section" style="display:none;">
+                <!-- YouTube video will be embedded here -->
+            </div>
+            <div id="content-section">
+                <!-- Chapter content will be dynamically loaded here -->
+                <h2 id="chapterHeadding">Welcome to the {{ course }} Course</h2>
+                <div id="chapterContent">Select a chapter from the left to view the content.</div>
+            </div>
+        </div>
+    </div>
+    <!--Python Courses end-->
+
+    <!--footer start-->
+    {% include "afterLoginFooter.html" %}
+    <!--footer end-->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get all chapter links
+            const chapterLinks = document.querySelectorAll('.chapter-link');
+
+            // Attach click event listeners to all chapter links
+            chapterLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();  // Prevent the default link action
+                    document.getElementById('video-section').style.display = 'block'
+                    document.getElementById('chapterHeadding').style.display = 'none';
+                    const chapterId = this.dataset.id;  // Get chapter ID
+                    const course = this.dataset.course;  // Get course name
+
+                    // Make an AJAX request using XMLHttpRequest
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('GET', `/course_content/${course}/${chapterId}`, true);
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            const response = JSON.parse(xhr.responseText);  // Parse the JSON response
+
+                            // Update the video section with the YouTube embed
+                            document.getElementById('video-section').innerHTML = `
+                                <iframe width="560" height="315" 
+                                        src="https://www.youtube.com/embed/${response.video_id}" 
+                                        frameborder="0" allowfullscreen></iframe>
+                            `;
+
+                            // Update the content section with the chapter content
+                            //document.getElementById('chapterHeadding').innerHTML = response.title;
+                            document.getElementById('chapterContent').innerHTML = response.content;
+                        }
+                    };
+                    xhr.send();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
