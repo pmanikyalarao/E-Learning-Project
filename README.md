@@ -57,14 +57,32 @@ Follow these steps to set up and run the E-Learning Platform on your local machi
     googleAPIKey = "YOUR_GOOGLE_API_KEY"
     ```
     * **Note:** This key is essential for the AI-driven chatbot functionality. Without it, the chatbot will not work.
+3.  **Configure email settings:**
+    * Open the `myBlueprints/__init__.py` file.
+    * Locate the `def createApp():` function.
+    * In the email configuration section, replace `'YOUR MAIL ID TO SEND OTPS'` with your Gmail address and `'YOUR MAIL PASSWORD'` with your app-specific password.
+    ```python
+    # myBlueprints/__init__.py
+    # ... other configurations
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USERNAME'] = 'YOUR MAIL ID TO SEND OTPS'
+    app.config['MAIL_PASSWORD'] = 'YOUR MAIL PASSWORD'
+    app.config['MAIL_USE_TLS'] = False
+    app.config['MAIL_USE_SSL'] = True
+    app.config['MAIL_DEFAULT_SENDER'] = 'YOUR MAIL ID TO SEND OTPS'
+    # ... rest of the code
+    ```
+    * **Note:** You must use a **Gmail App Password** instead of your regular Gmail password. For security reasons, Google requires this for third-party applications. To generate an App Password, you need to have **2-Step Verification** enabled on your Google account. You can create one from your [Google Account security settings](https://myaccount.google.com/security).
 
-3.  **Create a virtual environment:**
+
+4.  **Create a virtual environment:**
     ```bash
     python -m venv venv
     ```
     A **virtual environment** is a self-contained directory containing a specific Python interpreter and a set of libraries, allowing you to manage project dependencies independently. 
 
-4.  **Activate the virtual environment:**
+5.  **Activate the virtual environment:**
     * **On Windows:**
         ```bash
         venv\Scripts\activate
@@ -73,7 +91,7 @@ Follow these steps to set up and run the E-Learning Platform on your local machi
         ```bash
         source venv/bin/activate
         ```
-5.  **Install the dependencies:**
+6.  **Install the dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
