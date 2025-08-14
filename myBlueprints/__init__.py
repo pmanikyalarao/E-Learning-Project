@@ -11,11 +11,11 @@ def createApp():
     #main configuration
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 465
-    app.config['MAIL_USERNAME'] = 'palivelamanikyalarao2008@gmail.com'
-    app.config['MAIL_PASSWORD'] = 'qhuocupltmwtrmgg'
+    app.config['MAIL_USERNAME'] = 'YOUR MAIL ID TO SEND OTPS'
+    app.config['MAIL_PASSWORD'] = 'YOUR MAIL PASSWORD'
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True
-    app.config['MAIL_DEFAULT_SENDER'] = 'palivelamanikyalarao2008@gmail.com'
+    app.config['MAIL_DEFAULT_SENDER'] = 'YOUR MAIL ID TO SEND OTPS'
     
     #secret_key
     app.secret_key = 'elearning website'
@@ -42,4 +42,5 @@ def createApp():
     app.register_blueprint(chatWithFriends_pg)
     app.register_blueprint(courses_pg)
     
+
     return app
