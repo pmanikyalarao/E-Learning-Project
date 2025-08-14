@@ -1,0 +1,361 @@
+<html>
+    <head>
+        <title>Virtual Classroom</title>
+        <link rel="stylesheet" href="{{ url_for('virtualClassRoom_pg.static',filename='css/virtualClass.css') }}">
+    </head>
+    <body>
+        <!--header start-->
+        {% include "afterLoginHeader.html" %}
+        <!--header end-->
+        
+        <main>
+            <!--body of the virtual class room start-->
+            <div class="virtualClassIntro">
+                <h1>Welcome to virtual class room</h1>
+                <div>
+                    <button class="createClass">Create Class</button>
+                    <button class="joinClass">Join Class</button>
+                </div>
+            </div>
+            <div class="virtualClassOptions">
+                <div class="virtualClassOption">
+                    <h1>My Class Rooms (for teacher)</h1>
+                </div>
+                <div class="virtualClassOption">
+                    <h1>Class Rooms Enrolled (for students)</h1>
+                </div>
+            </div>
+            <!--body of the virtual class room end-->
+
+
+            <div class="classes forTeachers">
+                <h1>My Class Rooms(<span>for teacher</span>)</h1>
+                <table border="1" cellspacing='0'>
+                    <tr>
+                        <th>SNO</th>
+                        <th>Class Name</th>
+                        <th>Class Id</th>
+                        <th>View</th>
+                    </tr>
+                    {% if facultyClasses %}
+                        {% for class in facultyClasses %}
+                            <tr>
+                                <td>{{ class.id }}</td>
+                                <td>{{ class.class_name }}</td>
+                                <td>{{ class.class_id }}</td>
+                                <td><button><a href="{{ url_for('virtualClassRoom_pg.facultyClass',classId = class.class_id) }}" style="text-decaration:none;">View</a></button></td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td colspan="4">Not found</td></tr>
+                    {% endif %}
+                    
+                </table>
+
+                <a href="" class="back">Back</a>
+            </div>
+
+            <div class="classes forStudents">
+                <h1>My Class Rooms(<span>for students</span>)</h1>
+                <table border="1" cellspacing='0'>
+                    <tr>
+                        <th>SNO</th>
+                        <th>Class Name</th>
+                        <th>Facult Username</th>
+                        <th>Class Id</th>
+                        <th>View</th>
+                    </tr>
+                    {% if joinedClasses %}
+                        {% for class in joinedClasses %}
+                            <tr>
+                                <td>{{ class.id }}</td>
+                                <td>{{ class.class_name }}</td>
+                                <td>{{ class.faculty_username }}</td>
+                                <td>{{ class.class_id }}</td>
+                                <td><button><a href="{{ url_for('virtualClassRoom_pg.studentClass',classId = class.class_id) }}" style="text-decaration:none;">View</a></button></td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td colspan="5">Not found</td></tr>
+                    {% endif %}
+                    
+                </table>
+
+                <a href="" class="back">Back</a>
+            </div>
+        </main>
+
+        <div class="createForm createClassForm">
+            <a href="" class="closeCreateClassForm">X</a>
+            <h2>Create Class</h2>
+            <form id="fcreate" method="post">
+                <input type="text" Id="className" name="className" placeholder="Enter class name...">
+                <input type="submit" class="createButton" value="Create Class">
+            </form>
+        </div>
+
+        <div class="createForm joinClassForm">
+            <a href="" class="closeJoinClassForm">X</a>
+            <h2>Join Class</h2>
+            <div id="classDetails" style="display:none;">
+                <div id="details"></div>
+                <form id="fjoin" method="post">
+                    <input type="submit" class="jButton" value="Join Class">
+                </form>
+            </div>
+            <form id="fcheckjoin" method="post">
+                <input type="text" name="classId" id="classId" placeholder="Enter class Id...">
+                <input type="submit" class="joinButton" value="Check Class">
+            </form>
+        </div>
+
+        <!--footer start-->
+        {% include "afterLoginFooter.html"%}
+        <!--footer end-->
+
+        <script>
+            //for createClass
+            document.getElementsByClassName("createClass")[0].addEventListener("click",()=>{
+                document.getElementsByClassName("createClassForm")[0].style.display = "block";
+                document.body.scrollTop = 0;
+                document.body.style.overflow = "hidden";
+                document.getElementsByClassName("virtualClassOptions")[0].style.pointerEvents = "none";
+                document.getElementsByClassName("virtualClassIntro")[0].style.pointerEvents = "none";
+            });
+            document.getElementById("fcreate").addEventListener('submit',(e)=>{
+                e.preventDefault();
+                let inputField = document.getElementById("className");
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/createVirtualClass', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+                let className = inputField.value;
+                
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        // Update the page with the received data
+                        var response = JSON.parse(xhr.responseText);
+                
+                        if(response.text == "created"){
+                            alert("Your class is create with id "+response.id);
+
+                            document.getElementsByClassName("createClassForm")[0].style.display = "none";
+                            document.getElementsByClassName("virtualClassOptions")[0].style.pointerEvents = "auto";
+                            document.getElementsByClassName("virtualClassIntro")[0].style.pointerEvents = "auto";
+                            document.body.style.overflow = "auto";
+                            // clear the input box
+                            inputField.value = '';
+                            let forTeachers = document.getElementsByClassName("forTeachers")[0];
+                            let table = forTeachers.getElementsByTagName("table")[0];
+                            let firstRecord = table.getElementsByTagName("tr")[1];
+
+                            if(firstRecord.getElementsByTagName("td")[0].innerText == "Not found"){
+                                firstRecord.remove();
+                            }
+
+                            let tr = document.createElement("tr");
+                            let td1 = document.createElement("td");
+                            td1.innerText = table.getElementsByTagName("tr").length;
+                            let td2 = document.createElement("td");
+                            td2.innerText = className;
+                            let td3 = document.createElement("td");
+                            td3.innerText = response.id;
+                            let td4 = document.createElement("td");
+                            td4.innerHTML = "<button>View</button>";
+                            tr.appendChild(td1);
+                            tr.appendChild(td2);
+                            tr.appendChild(td3);
+                            tr.appendChild(td4);
+                            table.appendChild(tr);
+                        }
+                        else if(response.text == "classAlreadyExisting"){
+                            alert("Class is already existing. try again with another name.")
+                        }
+                        else{
+                            alert("Class is not created. try again.");
+                        }
+                    }
+                };
+
+                // Send the request with the user message
+                xhr.send('className=' + encodeURIComponent(className));
+            });
+
+            document.getElementsByClassName("closeCreateClassForm")[0].addEventListener("click",(e)=>{
+                e.preventDefault();
+                document.getElementsByClassName("createClassForm")[0].style.display = "none";
+                document.body.style.overflow = "auto";
+                document.getElementsByClassName("virtualClassOptions")[0].style.pointerEvents = "auto";
+                document.getElementsByClassName("virtualClassIntro")[0].style.pointerEvents = "auto";
+            });
+
+
+
+            //for joinClass
+            document.getElementsByClassName("joinClass")[0].addEventListener("click",()=>{
+                document.getElementsByClassName("joinClassForm")[0].style.display = "block";
+                document.body.scrollTop = 0;
+                document.body.style.overflow = "hidden";
+                document.getElementsByClassName("virtualClassOptions")[0].style.pointerEvents = "none";
+                document.getElementsByClassName("virtualClassIntro")[0].style.pointerEvents = "none";
+            });
+
+            document.getElementById("fcheckjoin").addEventListener('submit',(e)=>{
+                e.preventDefault();
+                let inputField = document.getElementById("classId");
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/checkVirtualClass', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+                let classId = inputField.value;
+                
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        // Update the page with the received data
+                        var response = JSON.parse(xhr.responseText);
+                
+                        if(response.text == "existing"){
+                            //alert("Your class is create with id "+response.id);
+
+                            let div1 = document.createElement("div");
+                            let div2 = document.createElement("div");
+                            let div3 = document.createElement("div");
+                            div1.innerHTML = "<h3>Class Name : </h3><span>"+response.className+"</span>";
+                            div2.innerHTML = "<h3>Faculty Username : </h3><span>"+response.facultyUsername+"</span>";
+                            div3.innerHTML = "<h3>Class ID : </h3><span>"+response.classId+"</span>";
+
+                            document.getElementById("fcheckjoin").style.display = "none";
+                            let details = document.getElementById("details");
+                            let classDetails = document.getElementById("classDetails");
+                            details.appendChild(div1);
+                            details.appendChild(div2);
+                            details.appendChild(div3);
+                            classDetails.style.display = "block";
+                        }
+                        else if(response.text == "notExisting"){
+                            alert("There is no class existing on this id. Try again.")
+                        }
+                        else{
+                            alert("no class existing. try again.");
+                        }
+                    }
+                };
+
+                // Send the request with the user message
+                xhr.send('classId=' + encodeURIComponent(classId));
+            });
+
+            document.getElementById("fjoin").addEventListener("submit", (e)=>{
+                e.preventDefault();
+                var req = new XMLHttpRequest();
+                req.open('POST', '/joinVirtualClass', true);
+                req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                
+                let inputField = document.getElementById("classId");
+                let classId = inputField.value;
+
+                req.onload = function() {
+                    if (req.status == 200) {
+                        // Update the page with the received data
+                        var response = JSON.parse(req.responseText);
+                
+                        if(response.text == "joined"){
+                            alert("You are successfully joined into the class!");
+                            document.getElementById("classDetails").style.display = "none";
+                            document.getElementsByClassName("joinClassForm")[0].style.display = "none";
+
+                            let forStudents = document.getElementsByClassName("forStudents")[0];
+                            let table = forStudents.getElementsByTagName("table")[0];
+                            let firstRecord = table.getElementsByTagName("tr")[1];
+
+                            if(firstRecord.getElementsByTagName("td")[0].innerText == "Not found"){
+                                firstRecord.remove();
+                            }
+
+                            let tr = document.createElement("tr");
+                            let td1 = document.createElement("td");
+                            td1.innerText = table.getElementsByTagName("tr").length;
+                            let td2 = document.createElement("td");
+                            td2.innerText = response.className;
+                            let td3 = document.createElement("td");
+                            td3.innerText = response.facultyUsername;
+                            let td4 = document.createElement("td");
+                            td4.innerText = response.classId;
+                            let td5 = document.createElement("td");
+                            td5.innerHTML = "<button>View</button>";
+                            
+
+                            tr.appendChild(td1);
+                            tr.appendChild(td2);
+                            tr.appendChild(td3);
+                            tr.appendChild(td4);
+                            tr.appendChild(td5);
+                            table.appendChild(tr);
+
+                            inputField.value = ""
+                            document.getElementById("details").innerHTML = " "
+                            document.getElementById("fcheckjoin").style.display = "flex";
+                            document.body.style.overflow = "auto";
+                            document.getElementsByClassName("virtualClassOptions")[0].style.pointerEvents = "auto";
+                            document.getElementsByClassName("virtualClassIntro")[0].style.pointerEvents = "auto";
+                        }
+                        else if(response.text == "notJoined"){
+                            alert("Your are not joined! Try again.")
+                        }
+                        else if(response.text == "alreadyJoined"){
+                            alert("Your are already joined!");
+                        }
+                        else{
+                            alert("Your are not joined! Try again.");
+                        }
+                    }
+                };
+
+                // Send the request with the user message
+                req.send('classId=' + encodeURIComponent(classId));
+            });
+
+            document.getElementsByClassName("closeJoinClassForm")[0].addEventListener("click",(e)=>{
+                e.preventDefault();
+                document.getElementsByClassName("joinClassForm")[0].style.display = "none";
+                let inputField = document.getElementById("classId");
+                inputField.value = "";
+                document.getElementById("details").innerHTML = " "
+                document.getElementById("classDetails").style.display = "none";
+                document.getElementById("fcheckjoin").style.display = "flex";
+                document.body.style.overflow = "auto";
+                document.getElementsByClassName("virtualClassOptions")[0].style.pointerEvents = "auto";
+                document.getElementsByClassName("virtualClassIntro")[0].style.pointerEvents = "auto";
+            });
+
+
+            //for VirtualClassOptions
+            let virtualClassOption = document.getElementsByClassName("virtualClassOption");
+            let backOption = document.getElementsByClassName("back");
+            virtualClassOption[0].addEventListener('click',function(){
+                document.getElementsByClassName("virtualClassIntro")[0].style.display = "none";
+                document.getElementsByClassName("virtualClassOptions")[0].style.display = "none";
+                document.getElementsByClassName("classes")[0].style.display = "block";
+            });
+            virtualClassOption[1].addEventListener('click',function(){
+                document.getElementsByClassName("virtualClassIntro")[0].style.display = "none";
+                document.getElementsByClassName("virtualClassOptions")[0].style.display = "none";
+                document.getElementsByClassName("classes")[1].style.display = "block";
+            });
+
+            //for back options
+            backOption[0].addEventListener('click',function(e){
+                e.preventDefault();
+                document.getElementsByClassName("virtualClassIntro")[0].style.display = "flex";
+                document.getElementsByClassName("virtualClassOptions")[0].style.display = "flex";
+                document.getElementsByClassName("classes")[0].style.display = "none";
+            });
+            backOption[1].addEventListener('click',function(e){
+                e.preventDefault();
+                document.getElementsByClassName("virtualClassIntro")[0].style.display = "flex";
+                document.getElementsByClassName("virtualClassOptions")[0].style.display = "flex";
+                document.getElementsByClassName("classes")[1].style.display = "none";
+            });
+        </script>
+    </body>
+</html>

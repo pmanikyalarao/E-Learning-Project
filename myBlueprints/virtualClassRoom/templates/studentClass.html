@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Virtual Classroom</title>
+    <link rel="stylesheet" href="{{ url_for('virtualClassRoom_pg.static',filename="css/facultyClass.css") }}">
+    <script src="{{ url_for('chatWithFriends_pg.static',filename='js/socket.io.min.js') }}"></script>
+</head>
+<body>
+
+    <!--header start-->
+    {% include "afterLoginHeader.html" %}
+    <!--header end-->
+
+    <div class="container">
+        <div class="sidebar">
+            <h2>Student Dashboard</h2>
+            <ul>
+                <li class="optionMenu"  onclick="showSection('home',this)">Home</li>
+                <li class="optionMenu"  onclick="showSection('video-conferencing',this)">Join Live Stream</li>
+                <li class="optionMenu"  onclick="showSection('file-sharing',this)">Access Shared Files</li>
+                <li class="optionMenu"  onclick="showSection('group-chat',this)">Group Chat</li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <section id="home" class="section">
+                <h1>Welcome, {{ session.get('username') }}</h1>
+                <p>Participate in your virtual classroom activities.</p>
+                <p>Your class id is {{ classId }}</p>
+            </section>
+
+            <section id="video-conferencing" class="section">
+                <h1>Live Class</h1>
+                <p id="stream-status">Waiting for the live class to start...</p>
+
+                <video id="studentVideo" controls autoplay type="video/webm" style="display:none;"></video><br>
+                <button id="joinStreamButton" style="display:none;" onclick="joinStream()">Join Stream</button>
+                <button id="leaveStreamButton" style="display:none;" onclick="leaveStream()">Leave Stream</button>
+            </section>
+
+            <section id="file-sharing" class="section" style="display: none;">
+                <h1>Access Shared Files</h1>
+                <div id="chat-box" class="chat-box" style="height:500px;">
+                    <!-- Files shared by faculty will be listed here -->
+                </div>
+            </section>
+
+            <section id="group-chat" class="section" style="display: none;">
+                <h1>Group Chat</h1>
+                <div id="group-chat-box" class="chat-box"></div>
+                <form class="chat-form" onsubmit="event.preventDefault(); sendMessage();">
+                    <input type="text" id="chat-input" class="chat-input" placeholder="Type a message" style="flex:1;" required>
+                    <button type="submit" class="chat-send-btn">Send</button>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <!--footer start-->
+    {% include "afterLoginFooter.html" %}
+    <!--footer end-->
+
+    <script>
+        
+        let classId = '{{ classId }}';
+
+        //creating socket
+        let socket = io();
+        socket.emit('student_access_file_sharing', { class_id: classId });
+        socket.emit('joinCurrentConnectedStudents', { class_id: classId });
+
+        document.addEventListener("DOMContentLoaded",()=>{
+            document.querySelectorAll('.optionMenu')[0].style.backgroundColor = '#3498db';
+            loadFileHistory()
+            loadChatHistory(classId)
+        });
+
+        function showSection(sectionId,menu) {
+            // Hide all sections
+            let sections = document.querySelectorAll('.section');
+            sections.forEach(function(section) {
+                section.style.display = 'none';
+            });
+            
+            let options = document.querySelectorAll('.optionMenu');
+            options.forEach(function(op) {
+                op.style.backgroundColor = '';
+            });
+
+            // Show the selected section
+            document.getElementById(sectionId).style.display = 'block';
+            menu.style.backgroundColor = '#3498db';
+        }
+
+        function startLiveStream() {
+            alert('Live stream started!');
+            // Actual logic to start live stream
+        }
+
+        function joinLiveStream() {
+            alert('Joining the live stream...');
+            // Actual logic to join the live stream
+        }
+
+        function sendMessage() {
+            const chatBox = document.getElementById('group-chat-box');
+            const input = document.getElementById('chat-input').value;
+            const div = document.createElement('div');
+            div.classList.add("sent")
+            div.innerHTML = `<span>You</span>: ${input}`;
+            chatBox.appendChild(div);
+            socket.emit('message', { sender: '{{session.get('username')}}', class_id: classId, message:input });
+            chatBox.scrollTop = chatBox.scrollHeight;
+            document.getElementById('chat-input').value = '';
+        }
+
+    </script>
+    <script>
+        
+        // Handle real-time file sharing updates
+        socket.on('file_shared', function(data) {
+            const chatBox = document.getElementById('chat-box');
+            const fileMessage = `
+                <div class="file-message">
+                    <strong>${data.faculty_username}</strong> uploaded: 
+                    <a href="/student/download/${data.file_name}" target="_blank">${data.file_name}</a>
+                </div>
+            `;
+            chatBox.innerHTML += fileMessage;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+
+
+        function loadFileHistory() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/class/${classId}/file_history`, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const files = JSON.parse(xhr.responseText);
+                    const chatBox = document.getElementById('chat-box');
+                    chatBox.innerHTML = '';
+                    files.forEach(function(file) {
+                        const fileMessage = `
+                            <div class="file-message">
+                                <strong>${file.faculty_username}</strong> uploaded: 
+                                <a href="/student/download/${file.file_name}" target="blank">${file.file_name}</a>
+                            </div>
+                        `;
+                        chatBox.innerHTML += fileMessage;
+                    });
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+            };
+            xhr.send();
+        }
+    </script>
+
+    <script>
+
+        // Receive messages
+        socket.on('message', function(data) {
+            let chatBox = document.getElementById("group-chat-box");
+            const div = document.createElement('div');
+            div.classList.add("receive")
+            if(data.faculty == "true"){
+                div.innerHTML = `<span>${data.sender}</span>(faculty): ${data.message}`;
+            }
+            else{
+                div.innerHTML = `<span>${data.sender}</span>: ${data.message}`;
+            }
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+
+        // Load chat history via AJAX
+        function loadChatHistory(class_id) {
+            let chatBox = document.getElementById("group-chat-box");
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/class/${class_id}/messages`, true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const chatHistory = JSON.parse(xhr.responseText);
+                    chatHistory.forEach(function(message) {
+                        const div = document.createElement('div');
+                        if(message.sender == '{{ session.get('username') }}'){
+                            div.classList.add("sent")
+                            div.innerHTML = `<span>You</span>: ${message.message}`;
+                        }
+                        else{
+                            div.classList.add("receive")
+                            if(message.faculty == "true"){
+                                div.innerHTML = `<span>${message.sender}</span>(faculty): ${message.message}`;
+                            }
+                            else{
+                                div.innerHTML = `<span>${message.sender}</span>: ${message.message}`;
+                            }
+                            
+                        }
+                        
+                        chatBox.appendChild(div);
+                    });
+                }
+            };
+            xhr.send();
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+
+    <script>
+        //const socket = io();
+        const class_id = classId;  // Example class_id
+        socket.on('faculty_stream', function() {
+            document.getElementById('stream-status').innerText = "Live class started! Join now.";
+            document.getElementById('joinStreamButton').style.display = 'inline';
+        });
+        //socket.on('faculty_stream', () => {
+        //    document.getElementById('stream-status').innerText = 'Live class started!';
+        //    document.getElementById('joinStreamButton').style.display = 'inline';
+        //});
+
+        // Handle server-side join/leave responses
+        /*socket.on('joined_stream', (data) => {
+            document.getElementById('stream-status').innerText = data.message;
+        });
+
+        socket.on('left_stream', (data) => {
+            document.getElementById('stream-status').innerText = data.message;
+        });*/
+
+
+        document.getElementById('joinStreamButton').onclick = function() {
+            document.getElementById('studentVideo').style.display = 'block';
+            document.getElementById('joinStreamButton').style.display ='none';
+            document.getElementById('leaveStreamButton').style.display = 'inline';
+
+            socket.emit('join_class', { class_id: classId });
+
+            document.getElementById('stream-status').innerText = "You have joined the stream";
+        };
+
+        document.getElementById('leaveStreamButton').onclick = function() {
+            socket.emit('leave_class', { class_id: classId });
+            document.getElementById('stream-status').innerText = "You have left the stream";
+            document.getElementById('studentVideo').style.display = 'none';
+            document.getElementById('leaveStreamButton').style.display = 'none';
+            document.getElementById('joinStreamButton').style.display = 'inline';
+        };
+
+        socket.on('stream_started', function(streamUrl) {
+            document.getElementById('studentVideo').style.display = 'block';
+            document.getElementById('studentVideo').src = streamUrl;
+            document.getElementById('studentVideo').play().catch((error)=>{})
+        });
+
+        socket.on('stream_stopped', function() {
+            document.getElementById('studentVideo').style.display = 'none';
+            document.getElementById('studentVideo').src = '';
+            document.getElementById('stream-status').innerText = "Stream closed! Waiting for the live class to start again...";
+            document.getElementById('joinStreamButton').style.display ='none';
+            document.getElementById('leaveStreamButton').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

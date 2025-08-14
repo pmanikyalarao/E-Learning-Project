@@ -1,0 +1,239 @@
+body{
+    background-color:#e3dfdf;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* justify-content: center; */
+    align-items: center;
+    height: 100vh;
+}
+
+
+main{
+    flex:1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+}
+
+.virtualClassIntro{
+    background-color: white;
+    width: 80%;
+    height: 240px;
+    border-radius: 15px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    /* box-shadow: 0 0 6px rgba(0, 0, 0, 0.365); */
+
+    /* display: none; */
+}
+.virtualClassIntro>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    cursor:pointer;
+}
+.virtualClassIntro>div button{
+    font-style: bold;
+    padding:7px 10px;
+    font-size: 17px;
+    border-radius: 8px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    cursor:pointer;
+}
+
+.virtualClassIntro>div .createClass{
+    background-color: red;
+}
+.virtualClassIntro>div .createClass:hover{
+    background-color: rgba(252, 0, 0, 0.65);
+}
+.virtualClassIntro>div .joinClass{
+    color: wheat;
+    background-color: blue;
+    padding:7px 15px;
+}
+.virtualClassIntro>div .joinClass:hover{
+    background-color: rgba(0, 0, 255, 0.613);
+}
+
+.virtualClassOptions{
+    font-family:fantasy;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    width: 80%;
+    height: 240px;
+    gap: 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 13px;
+    color: red;
+    /* display: none; */
+}
+.virtualClassOptions>div{
+    cursor:pointer;
+    background-color: white;
+    width: 50%;
+    height: 100%;
+    border-radius: 15px;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    padding: 0 10px;
+    /* box-shadow: 0 0 3px rgba(0, 0, 0, 0.365); */
+}
+.virtualClassOptions>div:hover{
+    background-color:rgb(249, 241, 225);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.365);
+    color: rgba(0, 0, 255, 0.406);
+}
+
+
+
+.classes{
+    margin: 20px 0;
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    display: none;
+}
+
+.classes h1 {
+    color: #2980b9;
+    margin-bottom: 10px;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: underline;
+}
+.classes h1 span{
+    /* color: #46d280; */
+    color: green;
+}
+
+/* Table Styling */
+.classes table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.classes table th,
+.classes table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.classes table th {
+    background-color: #3498db;
+    /* background-color: #408abb; */
+    border: 1px solid black;
+    color: white;
+    text-align: center;
+}
+
+/* table tr:hover {
+    background-color: #f2f2f2;
+} */
+
+.classes table tr:nth-child(even) {
+    background-color: #f3f2f2;
+}
+
+.classes table button {
+    padding: 7px 15px;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.classes table button:hover {
+    background-color: #27ae60;
+}
+
+.classes a {
+    display: inline-block;
+    background-color: #e74c3c;
+    padding: 7px 25px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.classes a:hover {
+    background-color: #c0392b;
+}
+
+.createForm{
+    
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.259);
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%,-70%);
+    padding: 25px;
+    background-color: wheat;
+    min-width: 450px;
+    /* padding-top: 10px; */
+    display: none;
+    
+}
+.createForm h2{
+    text-align: center;
+    padding-top: 3px;
+    padding-bottom: 15px;
+}
+.createForm form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.createForm input{
+    width: 85%;
+    height: 40px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    border: .5px solid rgba(0, 0, 0, 0.28);
+}
+.createForm input[type="text"]{
+    padding: 0 10px;
+}
+.createForm input[type="submit"]:hover{
+    background-color: rgba(148, 148, 233, 0.74);
+    cursor: pointer;
+}
+.createForm a{
+    position: absolute;
+    text-decoration: none;
+    right: 15px;
+    top: 10px;
+    color: blue;
+    font-size: 25px;
+    font-weight: 500;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', sans-serif;
+    padding-bottom: 20px;
+}
+.createForm .closeForm:hover{
+    color: green;
+}
+
+#classDetails #details div{
+    display: flex;
+}
