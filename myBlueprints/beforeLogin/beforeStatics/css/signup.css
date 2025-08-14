@@ -1,0 +1,116 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f6f6f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    background: white;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.left-section, .right-section {
+    padding: 25px 30px;
+    /* width: 50%; */
+}
+
+.left-section {
+    background: #f1f1f1;
+    text-align: center;
+}
+
+.left-section h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.left-section p {
+    margin: 10px 0 20px;
+    font-size: 16px;
+    color: #666;
+}
+
+.registerPhoto img {
+    /* width: 100%; */
+    border-radius: 5px;
+}
+
+.right-section .form-container {
+    max-width: 400px;
+    margin: 0 auto;
+}
+.right-section .form-container .close{
+    /* background-color: red; */
+    text-align: right;
+    position: relative;
+    bottom: 10px;
+    right: -5px;
+    font-size: 20px;
+}
+.right-section .form-container .close a{
+    text-decoration: none;
+}
+.right-section .form-container .close a:hover{
+    color: blue;
+}
+.right-section .form-container p{
+    margin-top: 25px;
+    text-align: center;
+}
+.right-section .form-container h1{
+    padding: 10px 0;
+}
+
+.field-wrap {
+    margin-bottom: 20px;
+}
+
+.field-wrap label {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.field-wrap input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.checkbox-container input {
+    margin-right: 10px;
+}
+
+.button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.button:hover {
+    background: #218838;
+}

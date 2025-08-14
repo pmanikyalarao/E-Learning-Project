@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Footer</title>
+    <link rel="stylesheet" href="{{ url_for('beforeLoginHome_pg.static',filename='css/footer.css') }}">
+</head>
+<body>
+    <!-- Footer start -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <h3>About Us</h3>
+                <p>We provide the best e-learning resources for students and professionals. Our platform offers a wide range of courses and materials to help you achieve your learning goals.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('beforeLoginHome_pg.home') }}">Home</a></li>
+                    <li><a href="{{ url_for('beforeLoginHome_pg.courses') }}">Courses</a></li>
+                    <li><a href="{{ url_for('beforeLoginHome_pg.aboutus') }}">Blog</a></li>
+                    <li><a href="{{ url_for('beforeLoginHome_pg.contactus') }}">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>Aditya engineering college ,Surampalem, ADB road</li>
+                    <li>+91 9951389520</li>
+                    <li>palivelamanikyalarao2008@gmail.com</li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="#">Face book</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Snapchat</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 E-Learning Platform. All rights reserved.</p>
+        </div>
+    </footer>
+    <!--footer end-->
+</body>
+</html>

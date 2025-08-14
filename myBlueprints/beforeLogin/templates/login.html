@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - E-Learning</title>
+    <link rel="stylesheet" href="{{ url_for('beforeLoginHome_pg.static',filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('beforeLoginHome_pg.static',filename='css/alert.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="left-loginContainer">
+            <h2>E-Learning</h2>
+            <p>Log in to see your account</p>
+            <img src="{{ url_for('beforeLoginHome_pg.static',filename='imgs/loginLogo5.jpg') }}" alt="">
+        </div>
+        <div class="login-form">
+            <div class="login-close"><a href="{{ url_for('beforeLoginHome_pg.home') }}">X</a></div>
+            <h2>Log in </h2>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class='alert'>{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form action="{{ url_for("beforeLoginHome_pg.loginSubmited") }}" method="POST">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Log in</button>
+                <a href="{{ url_for('beforeLoginHome_pg.forgot') }}">Forgot your password?</a>
+            </form>
+            <p>Don't have an account? <a href="{{ url_for('beforeLoginHome_pg.signup') }}">Register</a></p>
+        </div>
+    </div>
+</body>
+</html>

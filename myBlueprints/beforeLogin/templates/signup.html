@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('beforeLoginHome_pg.static',filename='css/signup.css') }}">
+    <link rel="stylesheet" href="{{ url_for('beforeLoginHome_pg.static',filename='css/alert.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <h2>E-Learning</h2>
+            <p>Register to create an account in my platform</p>
+            <div class="RegisterPhoto">
+                <img src="{{ url_for('beforeLoginHome_pg.static',filename='imgs/signUpLogo1.jpg') }}" alt="E learning">
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="form-container">
+                <div class="close"><a href="{{ url_for('beforeLoginHome_pg.home') }}">X</a></div>
+                <div id="signup">
+                    <h1>Create Account</h1>
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class='alert'>{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <form action="{{ url_for('beforeLoginHome_pg.signUpData') }}" method="POST">
+                        <div class="field-wrap">
+                            <label>Name</label>
+                            <input type="text" name="name" required autocomplete="off" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>Email</label>
+                            <input type="email" name="email" required autocomplete="off" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>Password</label>
+                            <input type="password" name="password" required autocomplete="off" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>Phone</label>
+                            <input type="phone" name="phone" required autocomplete="off" />
+                        </div>
+                        <label class="checkbox-container">
+                            <input type="checkbox"> I agree to Terms and Conditions, Privacy Policy & License Agreement
+                        </label>
+                        <button type="submit" class="button button-block">Register</button>
+                    </form>
+                    <p>Do you have an account? <a href="{{ url_for('beforeLoginHome_pg.login') }}">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

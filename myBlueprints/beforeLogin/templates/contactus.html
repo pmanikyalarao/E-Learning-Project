@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        body{
+            background-color:#f3f3f3;
+        }
+        .contactUs{
+            padding: 17px 20px;
+            margin: 0 120px;
+            background-color: white;
+        }
+        .contactUs h2,.contactUs p{
+            padding: 5px 0;
+        }
+        .contactUs ul li{
+            margin-left: 45px;
+            padding: 5px 0;
+        }
+        .contactUsHeadding{
+            width: 100%;
+            height: 225px;
+            background: url("{{ url_for('beforeLoginHome_pg.static',filename='imgs/pageHeaddingImg2.jpg') }}");
+            /*border: 1px solid white;*/
+            color: white;
+        }
+        .contactUsHeadding h1{
+            font-family:cursive;
+            font-size: 50px;
+            font-weight: 600;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <!--Header start-->
+    {% include "header.html" %}
+    <!--Header end-->
+
+    <!--contactUs Headding start-->
+    <div class="contactUsHeadding">
+        <h1>Contact Us</h1>
+    </div>
+    <!--contactUs Headding end-->
+
+    <!--Contact us Start-->
+    <div class="contactUs">
+
+        <h2>Contact Us</h2>
+        <P>Thank you for your interest in E-Learning Platform. We're here to assist you with any questions or concerns you may have. Please feel free to reach out to us using the following methods:</P>
+
+        <h2>General Inquiries</h2>
+        <p>For general inquiries or questions about our courses and services, please contact us at:</p>
+        <ul>
+            <li>
+                <b>Email:</b>palivelamanikyalarao2008@gmail.com
+            </li>
+            <li>
+                <b>Phone:</b>9951389520
+            </li>
+            <li>
+                <b>Address: </b>pulimeru,peddapuram mandal,east godavari,AP
+            </li>
+        </ul>
+
+
+        <h2>Technical Support</h2>
+        <p>If you're experiencing technical issues or need assistance with our platform, our support team is ready to help:</p>
+        <ul>
+            <li>
+                <b>Email:</b>palivelamanikyalarao2008@gmail.com
+            </li>
+            <li>
+                <b>Phone:</b>:9951389520
+            </li>
+        </ul>
+
+        <h2>Partnerships and Collaborations</h2>
+        <p>Interested in partnering with us or collaborating on educational initiatives? Contact our partnerships team:</p>
+        <ul>
+            <li>
+                <b>Email:</b>palivelamanikyalarao2008@gmail.com
+            </li>
+        </ul>
+
+
+        <h2>Feedback and Suggestions</h2>
+        <p>We value your feedback! Let us know how we can improve our platform to better meet your learning needs:</p>
+        <ul>
+            <li>
+                <b>Email:</b>palivelamanikyalarao2008@gmail.com
+            </li>
+        </ul>
+
+
+        <h2>Social Media</h2>
+        <p>Connect with us on social media for the latest updates, news, and educational content:
+            <ul>
+                <li>[Links to Your Social Media Profiles]</li>
+            </ul>
+        </p>
+        
+        <h2>Business Hours</h2>
+        <p>Our standard business hours are 8AM to 6PM. We strive to respond to all inquiries within 1 to 2 hours.
+            Thank you for choosing my E-Learning Platform. We look forward to hearing from you!
+        </p>
+
+    </div>
+    <!--Contact us end-->
+
+    <!-- Footer start -->
+    {% include "footer.html" %}
+    <!--footer end-->
+</body>
+</html>

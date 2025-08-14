@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('chatbot_pg.static',filename='css/mainChatbot.css') }}">
+
+    <style>
+        .loading-dots {
+            display: flex;
+            align-items: center;
+        }
+        
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            margin: 0 3px;
+            background-color: #3498db;
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounce 0.6s infinite alternate;
+        }
+        
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-6px);
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <!--header start-->
+    {% include "afterLoginHeader.html" %}
+    <!--header end-->
+
+    <!--Chatbot page start-->
+    <div class="chatbotBlock">
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2>Chatbot</h2>
+                <div class="chatHeaderOptions">
+                    <div class="optionsIcon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="optionsList">
+                        <button onclick="clearChat()" class="option option1">Clear chat</button>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-body" id="chat-body">
+                <div class="bot-message message">
+                    <span class="bicon">🤖</span>
+                    <div>Hi, welcome to the chatbot!</div>
+                </div>
+
+                {% if chat %}
+                    {% for i in chat%}
+                        <div class="user-message message">
+                            <p>{{ i.user_message }}</p>
+                            <span class="uicon">You</span>
+                        </div>
+                        <div class="bot-message message">
+                            <span class="bicon">🤖</span>
+                            <div>{{ i.bot_message|safe }}</div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <!--action="{{ url_for('chatbot_pg.chatbotMessage') }}"-->
+            <div class="chat-footer">
+                <form id="chatMessage" method='post'>
+                    <input type="text" id="user-input" name="message" placeholder="Type your message...">
+                    <button type="submit" id="send-button">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Chatbot page end-->
+
+    <!--footer start-->
+    {% include "afterLoginFooter.html" %}
+    <!--footer end-->
+
+    <script>
+        let form = document.getElementById('chatMessage');
+        let messageBox = document.getElementById("user-input");
+        let chatBody = document.getElementById("chat-body");
+    
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/chatbotMessage', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    
+            let userMessage = messageBox.value;
+    
+            // appending the user message to the chat body
+            chatBody.innerHTML += '<div class="user-message message">'+
+                                      '<p>'+userMessage+'</p>'+
+                                      '<span class="uicon">You</span>'+
+                                  '</div>';
+    
+            // clear the input box
+            messageBox.value = '';
+    
+            // add a loading animation for the bot response
+            let loadingMessage = document.createElement('div');
+            loadingMessage.classList.add('bot-message', 'message');
+            loadingMessage.innerHTML = '<span class="bicon">🤖</span>'+
+                                    '<div class="loading-dots">'+
+                                           '<span></span><span></span><span></span>'+
+                                    '</div>';
+            chatBody.appendChild(loadingMessage);
+
+            // scroll to the bottom of the chat body
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    // Update the page with the received data
+                    var response = xhr.responseText;
+
+                    // Remove the loading message
+                    chatBody.removeChild(loadingMessage);
+
+                    chatBody.innerHTML += '<div class="bot-message message">'+
+                                            '<span class="bicon">🤖</span>'+
+                                            '<div>'+response+'</div>'+
+                                        '</div>';
+                    
+                    // Scroll to the bottom of the chat body
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                }
+                else{
+                    chatBody.removeChild(loadingMessage);
+
+                    chatBody.innerHTML += '<div class="bot-message message">'+
+                        '<span class="bicon">🤖</span>'+
+                        '<div>error</div>'+
+                    '</div>';
+                }
+            };
+             
+            // Send the request with the user message
+            xhr.send('message=' + encodeURIComponent(userMessage));
+        });
+    </script>
+
+    <script>
+        let optionsIcon = document.getElementsByClassName("optionsIcon")[0]
+        let optionsList = document.getElementsByClassName("optionsList")[0]
+        optionsIcon.addEventListener("click",()=>{
+            if(optionsList.classList.contains('active')){
+                optionsList.classList.remove('active')
+                optionsList.style.display = 'none';
+            }
+            else{
+                optionsList.classList.add('active')
+                optionsList.style.display = 'flex';
+            }
+        })
+        window.addEventListener("click",(event)=>{
+            if(optionsList.classList.contains('active') && event.target !== optionsList && !optionsIcon.contains(event.target)){
+                optionsList.classList.remove('active')
+                optionsList.style.display = 'none';
+            }
+        })
+
+        function clearChat(){
+            //console.log(currentFriendId)
+            let ajax = new XMLHttpRequest();
+            ajax.open('GET', '/clearChatbotMessages' ,true);
+            
+            ajax.onreadystatechange = ()=>{
+                if(ajax.readyState === 4 && ajax.status === 200){
+                    response = ajax.responseText
+                    console.log(response)
+                    if(response == "Cleared"){
+                        chatBody.innerHTML = `<div class="bot-message message">
+                                                <span class="bicon">🤖</span>
+                                                <div>Hi, welcome to the chatbot!</div>
+                                              </div>`
+                    }
+                }
+            };
+
+            ajax.send();
+        }
+    </script>
+    
+</body>
+</html>

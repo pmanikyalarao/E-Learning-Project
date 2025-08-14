@@ -1,0 +1,82 @@
+<html>
+    <head>
+        <title>Profile</title>
+        <style>
+            /* General Body Styling */
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f0f0f5;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+
+            /* Profile Container */
+            .profile-container {
+                background-color: #fff;
+                padding: 30px;
+                border-radius: 15px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                max-width: 400px;
+                width: 100%;
+            }
+
+            /* Heading Style */
+            h1 {
+                color: #333;
+                font-size: 26px;
+                margin-bottom: 20px;
+            }
+
+            /* List Style */
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 20px 0;
+            }
+
+            ul li {
+                padding: 10px 0;
+                font-size: 18px;
+                color: #555;
+            }
+
+            ul li span {
+                font-weight: bold;
+                color: #333;
+            }
+
+            /* Button Styling */
+            a {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: #fff;
+                text-decoration: none;
+                border-radius: 8px;
+                transition: background-color 0.3s;
+            }
+
+            a:hover {
+                background-color: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="profile-container">
+            <h1>Hello, {{ details.name }}!<br>Welcome to my web page.</h1>
+            <ul>
+                <li><span>Name:</span> {{ details.name }}</li>
+                <li><span>Email:</span> {{ details.email }}</li>
+                <li><span>Password:</span> {{ details.password }}</li>
+                <li><span>Phone:</span> {{ details.phone }}</li>
+                <li><span>Username:</span> {{ details.username }}</li>
+            </ul>
+            <a href="{{ url_for('afterLoginHome_pg.home') }}">Home</a>
+        </div>
+    </body>
+</html>

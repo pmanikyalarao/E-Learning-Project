@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E learning</title>
+    <link rel="stylesheet" href="{{ url_for('beforeLoginHome_pg.static',filename='css/home.css') }}">
+    <style>
+        /*.move{
+            width:50px;
+            height:50px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:20px;
+            font-weight:700;
+            background-color:red;
+            color:white;
+            border-radius:100%;
+            position:fixed;
+            bottom:8%;
+            right:5%;
+        }*/
+    </style>
+</head>
+<body id="top">
+    <!--<a href='#top' class="move">^</a>-->
+    <!--Header start-->
+    {% include 'header.html' %}
+    <!--Header end-->
+
+    <!--headBelow start-->
+    <div class="headBelow">
+        <h1>The Best Online Learning Platform</h1>
+        <p>Our e-learning courses give you the flexibility to study whenever and wherever you want. Break the barriers of traditional education.</p>
+        <p></p>
+        <div class="btns">
+            <a href="{{ url_for('beforeLoginHome_pg.login') }}" class="headBtn1">Login</a>
+            <a href="{{ url_for('beforeLoginHome_pg.signup') }}" class="headBtn2">Create Account</a>
+        </div>
+    </div>
+    <!--headBelow end-->
+
+    <!--offered start-->
+    <div class="offered">
+        <h1>Features offered</h1>
+        <div class="offeredOptions">
+            <div>Online Courses</div>
+            <div>Virtual class room</div>
+            <div>Chat bot</div>
+            <div>Chating</div>
+        </div>
+    </div>
+    <!--offered end-->
+
+    <!--about start-->
+    <div class="about">
+        <h1>About Us</h1>
+        <div>
+            <img src="{{ url_for('beforeLoginHome_pg.static',filename='imgs/signUpLogo1.jpg') }}" alt='image'>
+            <div>
+                <h3>Welcome to my web page</h3>
+                <p>The objective of this project is to develop and evaluate a 
+                    comprehensive e-learning system that enables students to learn new courses online, clarify their doubts through an integrated chatbot, attend online classes created by their college or school faculties, and write tests online. The system aims to provide a holistic and engaging learning experience, enhancing accessibility and convenience for students.
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--about end-->
+
+    <!--courses start-->
+    <div class="courses">
+        <h1>Courses</h1>
+            <div class="coursesOptions">
+                <div>
+                    <img src="{{ url_for('courses_pg.static',filename='imgs/python.jpg') }} "    alt="image">
+                    <div>
+                        <h3>Basics in python programing</h3>
+                        <p>This free Python course is designed to help you build a solid        foundation in Python programming. I it helps you to create simple   scripts  in python.</p>
+                        <p class="type"><li>Beginner to Advanced</li></p>
+                        <a href="{{ url_for('beforeLoginHome_pg.login') }}"         class="enroll-button">Learn Now</a>
+                    </div>
+                </div>
+
+                <div>
+                    <img src="{{ url_for('courses_pg.static',filename='imgs/java.jpg') }}"      alt="imgae">
+                    <div>
+                        <h3>Basics in java programing</h3>
+                        <p>This free Java course gives students an introduction to Java SE  by   learning simple programes on the Java programming language.</p>
+                        <p class="type"><li>Beginner to Advanced</li></p>
+                        <a href="{{ url_for('beforeLoginHome_pg.login') }}"       class="enroll-button">Learn Now</a>
+                    </div>
+                </div>
+            
+                <div>
+                    <img src="{{ url_for('courses_pg.static',filename='imgs/c.jpg') }}"         alt="image">
+                    <div>
+                        <h3>Basics in c programing</h3>
+                        <p>If you want to learn C for free with a well-organized,   step-by-step  tutorial, you can use our free C programing Course.</p>
+                        <p class="type"><li>Beginner to Advanced</li></p>
+                        <a href="{{ url_for('beforeLoginHome_pg.login') }}"      class="enroll-button">Learn Now</a>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <!--courses end-->
+
+    <!-- Footer start -->
+    {% include 'footer.html' %}
+    <!--footer end-->
+</body>
+</html>

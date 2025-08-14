@@ -1,0 +1,63 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+body{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 200px;
+    /* background-color: #ebe8e8cd; */
+    background: linear-gradient(135deg, #F0F4F8, #D9E2EC);
+}
+.otpBlock{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.125);
+    border-radius: 10px;
+    gap: 15px;
+    min-width: 400px;
+}
+.otpBlock form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.otpBlock form input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 17px;
+}
+.otpBlock form input[type="text"]{
+    padding-left: 10px;
+}
+.otpBlock form input[type="submit"]{
+    padding-left: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 17px;
+    border: none;
+}
+.otpBlock form input[type="submit"]:hover {
+    background-color: #45a049;
+}
+.otpBlock h1{
+    text-align: center;
+}
+.otpBlock p{
+    font-size: 14px;
+    text-align: center;
+}
+.otpBlock a{
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+}
+.otpBlock a:hover{
+    text-decoration: underline;
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-learning</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            background: linear-gradient(135deg, #F0F4F8, #D9E2EC);
+        }
+        .block{
+            background-color: white;
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.135);
+            position: relative;
+            top: 150px;
+            min-width: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .block p{
+            font-size: 14px;
+            color: #666;
+            padding: 5px;
+        }
+        .block h1{
+            padding-top: 10px;
+        }
+        .block form{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 15px;
+        }
+        .block form input{
+            font-size: 16px;
+            padding: 12px;
+            border-radius: 5px;
+        }
+        .block form>div input{
+            border: 1px solid #ccc;
+            width: 100%;
+            outline: none;
+        }
+        .block form>div {
+            width: 100%;
+            display: flex;
+        }
+        .block form div>div{
+            background-color: #94a9be;
+            color:rgb(255, 251, 0);
+            padding: 12px;
+            width: 50px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            font-size: 20px;
+            font-family: cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #28a745;
+            display: none;
+        }
+        .block form input[type="submit"]{
+            padding-left: 10px;
+            /*background-color: #4CAF50;*/
+            background-color: #007bff;
+            color: #fff;
+            font-size: 17px;
+            border: none;
+            border-radius: 5px;
+            cursor:pointer;
+        }
+        .block form input[type='submit']:hover{
+            background-color: #0056b3;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('beforeLoginHome_pg.static',filename='css/alert.css') }}">
+</head>
+<body>
+    <div class="block">
+        <h1>Create Your Username</h1>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class='alert'>{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <p>Username shoud be unique!</p>
+        <form action="{{ url_for('beforeLoginHome_pg.createUsername') }}" method='post'>
+            <div>
+                <input type="text" name="username" id="username" placeholder="Enter username...">
+                <div class="verify">X</div>
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+        <script>
+            let verify = document.getElementsByClassName('verify')[0]
+            let input = document.getElementById('username')
+            input.addEventListener('input',()=>{
+                verify.style.display='flex'
+                if(input.value == ''){
+                    verify.style.display='none'
+                    input.style.borderTopRightRadius=5+'px';
+                    input.style.borderBottomRightRadius=5+'px';
+                }
+                else{
+                    input.style.borderTopRightRadius=0;
+                    input.style.borderBottomRightRadius=0;
+                }
+            })
+        </script>
+    </div>
+</body>
+</html>

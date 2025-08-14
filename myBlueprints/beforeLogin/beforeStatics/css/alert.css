@@ -1,0 +1,14 @@
+.alert{
+    padding:10px 0;
+    background-color:rgba(212, 120, 120, 0.3);
+    position:relative;
+    top:-16px;
+    /* width: 90%;
+    margin-left: 2.5%; */
+    margin-bottom: 5px;
+    border-radius:3px;
+    text-align:center;
+    font-size:16px;
+    color:green;
+    font-family:monospace;
+}

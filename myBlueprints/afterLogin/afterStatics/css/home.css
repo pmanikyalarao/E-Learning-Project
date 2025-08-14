@@ -1,0 +1,69 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.headerBellow{
+    color: white;
+    width: 100%;
+    height: 450px;
+    background-color: rgba(53, 49, 49, 0.947);
+    /* background-color: rgb(208, 172, 172); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    flex-direction: column;
+}
+.headerBellow p{
+    width: 50%;
+    text-align: center;
+}
+.headerBellow a{
+    text-decoration: none;
+    padding: 7px 35px;
+    margin-top: 10px;
+    font-size: 17px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    background: linear-gradient(90deg,rgba(201, 0, 0, 0.884),rgba(0, 0, 255, 0.616));
+}
+
+
+.features{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 30px 40px;
+    padding-bottom: 40px;
+    gap: 10px;
+}
+.features h1{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.features>div{
+    display: flex;
+    width:100%;
+    justify-content: center;
+    gap: 40px;
+}
+.features>div a{
+    width:20%;
+    height: 185px;
+    border-radius: 10px;
+    background-color: rgb(239, 116, 116);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    transition: .6s;
+    text-decoration: none;
+    cursor: pointer;
+    color: black;
+}
+.features>div a:hover{
+    background-color: rgba(219, 219, 54, 0.907);
+}

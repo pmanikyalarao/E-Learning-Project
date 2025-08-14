@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('afterLoginHome_pg.static',filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('chatbot_pg.static',filename='css/commonChatbot.css') }}">
+    <style>
+        .chatbotPage{
+            position:fixed;
+            right:30px;
+            bottom:80px;
+            display:none;
+        }
+        .chatbotIconBlock{
+            position:fixed;
+            right:30px;
+            bottom:20px;
+            padding:3px 5px;
+            background-color: #6a4cb8;
+            border-radius:50%;
+            cursor:pointer;
+        }
+        .chatbotIconBlock span{
+            text-decoration:none;
+            font-size:30px;
+            width:100%;
+            height:100%;
+        }
+
+        /*Loading dots in chatbot */
+        .loading-dots {
+            display: flex;
+            align-items: center;
+        }
+        
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            margin: 0 3px;
+            background-color: #3498db;
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounce 0.6s infinite alternate;
+        }
+        
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-6px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!--header start-->
+    {% include "afterLoginHeader.html" %}
+    <!--header end-->
+    
+    <!--Head bellow start-->
+    <div class="headerBellow">
+        <h1>Hi! {{ session.get('username') }}</h1>
+        <p>Our e-learning courses give you the flexibility to study whenever and wherever you want. Break the barriers of traditional education.</p>
+        <a href="{{ url_for('courses_pg.mainCoursesPage') }}">Get start</a>
+    </div>
+    <!--Head bellow end-->
+
+    <!--Features start-->
+    <div class="features">
+        <h1>Our Features</h1>
+        <div>
+            <a href="{{ url_for('courses_pg.mainCoursesPage') }}">Courses</a>
+            <a href="{{ url_for('virtualClassRoom_pg.virtualClassPage') }}">Virtual Classroom</a>
+            <a href="{{ url_for('chatbot_pg.chatbotWebPage') }}">Chatbot</a>
+            <a href="{{ url_for('chatWithFriends_pg.chatWithFriendsWebPage') }}">Chat with friends</a>
+        </div>
+    </div>
+    <!--Features end-->
+
+    <!--About start-->
+    <div class="about">
+        
+    </div>
+    <!--About end-->
+
+    <!--Chatbot start-->
+    <div class="chatbotPage">
+        <!--Chatbot will be loaded into this chatbotPage-->
+    </div>
+    <!--Chatbot end-->
+    
+    <!--Chatbot icon start-->
+    <div class="chatbotIconBlock">
+        <span id="chatbotIcon">🤖</span>
+    </div>
+    <!--Chatbot icon end-->
+
+    <!--footer start-->
+    {% include "afterLoginFooter.html" %}
+    <!--footer end-->
+
+    <script>
+        let c = document.getElementsByClassName('chatbotIconBlock')[0]
+        let chatbotPage = document.getElementsByClassName('chatbotPage')[0]
+
+        c.addEventListener('click',(e)=>{
+            e.preventDefault();
+
+            //Handling closing event
+            if(chatbotPage.classList.contains("bot-active")){
+                chatbotPage.style.display = 'none';
+                chatbotPage.classList.remove("bot-active")
+                c.style.backgroundColor = "#6a4cb8";
+
+                //removing bot script
+                const existingScript = document.querySelector(`script[chatbotScript="true"]`);
+                if (existingScript) {
+                    document.body.removeChild(existingScript); // Remove previously loaded script
+                }
+            }
+
+            //Handling opening event
+            else{
+                chatbotPage.style.display = 'block';
+                chatbotPage.classList.add("bot-active")
+                c.style.backgroundColor = "#3c8cb3";
+
+                let ajax = new XMLHttpRequest();
+
+                // Request to the server to get the commonChatbot page
+                ajax.open('GET', '{{ url_for("chatbot_pg.commonChatbotWebPage") }}', true);
+    
+                // A function to handle the response
+                ajax.onreadystatechange = function() {
+                    // Check if the request is complete (readyState 4) and successful (status 200)
+                    if (ajax.readyState === 4 && ajax.status === 200) {
+                        // Inserting the response in chatbotPage class tag (HTML)
+                        chatbotPage.innerHTML = " ";
+                        chatbotPage.innerHTML = ajax.responseText;
+                        executeScripts(chatbotPage)
+                        chatbotPage.removeChild(chatbotPage.getElementsByTagName('script')[0])
+                    }
+                };
+    
+                // Send the request
+                ajax.send();
+            }
+        })
+
+        function executeScripts(element) {
+            const scripts = element.querySelectorAll("script");
+            scripts.forEach((script) => {
+                // Check if the script is already in the body
+                const existingScript = document.querySelector(`script[chatbotScript="true"]`);
+                
+                // If the script is not already loaded, append it
+                if (!existingScript) {
+                    const newScript = document.createElement("script");
+                    newScript.textContent = script.textContent;
+                    newScript.setAttribute("chatbotScript", "true"); // Mark this script as loaded
+                    document.body.appendChild(newScript);
+                }
+            });
+        }
+        
+    </script>
+</body>
+</html>
