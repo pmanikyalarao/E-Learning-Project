@@ -46,7 +46,7 @@ Follow these steps to set up and run the E-Learning Platform on your local machi
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/pmanikyalarao/E-Learning-Project.git](https://github.com/pmanikyalarao/E-Learning-Project.git)
+    git clone https://github.com/pmanikyalarao/E-Learning-Project.git
     cd E-Learning-Project
     ```
 2.  **Set up your Google API Key:**
